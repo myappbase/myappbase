@@ -5,17 +5,17 @@ echo "Physical Memory: ${MEM_GIG}G"
 echo "Disk space total: ${DISK_TOTAL}G"
 echo "Disk space available: ${DISK_AVAIL}G"
 
-( [[ $NAME == "Ubuntu" ]] && ( [[ "$(echo ${VERSION_ID})" == "16.04" ]] || [[ "$(echo ${VERSION_ID})" == "18.04" ]] )  ) || ( echo " - You must be running 16.04.x or 18.04.x to install EOSIO." && exit 1 )
+( [[ $NAME == "Ubuntu" ]] && ( [[ "$(echo ${VERSION_ID})" == "16.04" ]] || [[ "$(echo ${VERSION_ID})" == "18.04" ]] )  ) || ( echo " - You must be running 16.04.x or 18.04.x to install MyAppbase." && exit 1 )
 
 [[ $MEM_GIG -lt 7 ]] && echo "Your system must have 7 or more Gigabytes of physical memory installed." && exit 1
-[[ "${DISK_AVAIL}" -lt "${DISK_MIN}" ]] && echo " - You must have at least ${DISK_MIN}GB of available storage to install EOSIO." && exit 1
+[[ "${DISK_AVAIL}" -lt "${DISK_MIN}" ]] && echo " - You must have at least ${DISK_MIN}GB of available storage to install MyAppbase." && exit 1
 
 # system clang and build essential for Ubuntu 18 (16 too old)
 ( [[ $PIN_COMPILER == false ]] && [[ $VERSION_ID == "18.04" ]] ) && EXTRA_DEPS=(clang,dpkg\ -s llvm-7-dev,dpkg\ -s)
 # We install clang8 for Ubuntu 16, but we still need something to compile cmake, boost, etc + pinned 18 still needs something to build source
 ( [[ $VERSION_ID == "16.04" ]] || ( $PIN_COMPILER && [[ $VERSION_ID == "18.04" ]] ) ) && ensure-build-essential
 $ENABLE_COVERAGE_TESTING && EXTRA_DEPS+=(lcov,dpkg\ -s)
-ensure-apt-packages "${REPO_ROOT}/scripts/eosio_build_ubuntu_deps" $(echo ${EXTRA_DEPS[@]})
+ensure-apt-packages "${REPO_ROOT}/scripts/myapp_build_ubuntu_deps" $(echo ${EXTRA_DEPS[@]})
 echo ""
 # Handle clang/compiler
 ensure-compiler
@@ -63,7 +63,7 @@ if [[ ! -d $MONGO_C_DRIVER_ROOT ]]; then
 	&& cd mongo-c-driver-$MONGO_C_DRIVER_VERSION \
 	&& mkdir -p cmake-build \
 	&& cd cmake-build \
-	&& $CMAKE -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$EOSIO_INSTALL_DIR -DENABLE_BSON=ON -DENABLE_SSL=OPENSSL -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DENABLE_STATIC=ON -DENABLE_ICU=OFF -DENABLE_SNAPPY=OFF $PINNED_TOOLCHAIN .. \
+	&& $CMAKE -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$MYAPP_INSTALL_DIR -DENABLE_BSON=ON -DENABLE_SSL=OPENSSL -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DENABLE_STATIC=ON -DENABLE_ICU=OFF -DENABLE_SNAPPY=OFF $PINNED_TOOLCHAIN .. \
 	&& make -j${JOBS} \
 	&& make install \
 	&& cd ../.. \
@@ -81,7 +81,7 @@ if [[ ! -d $MONGO_CXX_DRIVER_ROOT ]]; then
 	&& sed -i 's/\"maxAwaitTimeMS\", count/\"maxAwaitTimeMS\", static_cast<int64_t>(count)/' src/mongocxx/options/change_stream.cpp \
 	&& sed -i 's/add_subdirectory(test)//' src/mongocxx/CMakeLists.txt src/bsoncxx/CMakeLists.txt \
 	&& cd build \
-	&& $CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$EOSIO_INSTALL_DIR -DCMAKE_PREFIX_PATH=$EOSIO_INSTALL_DIR $PINNED_TOOLCHAIN .. \
+	&& $CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$MYAPP_INSTALL_DIR -DCMAKE_PREFIX_PATH=$MYAPP_INSTALL_DIR $PINNED_TOOLCHAIN .. \
 	&& make -j${JOBS} VERBOSE=1 \
 	&& make install \
 	&& cd ../.. \
@@ -98,7 +98,7 @@ if [[ ! -d $KAFKA_CXX_DRIVER_ROOT ]]; then
 	&& cd librdkafka \
 	&& git checkout v1.3.0 \
 	&& chmod 777 configure lds-gen.py \
-	&& ./configure --prefix=$EOSIO_INSTALL_DIR \
+	&& ./configure --prefix=$MYAPP_INSTALL_DIR \
 	&& make -j${JOBS} VERBOSE=1 \
 	&& make install \
 	&& cd ../.. "

@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE
+ *  @copyright defined in myappbase/LICENSE
  */
 #include <mqtt2kafka_plugin/mqtt2kafka_plugin.hpp>
 #include <pwd.h>

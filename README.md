@@ -24,10 +24,6 @@ Some of the groundbreaking features of MyAppbase include:
 
 Block.one is neither launching nor operating any initial public blockchains based upon the MyAppbase software. This release refers only to version 1.0 of our open source software. We caution those who wish to use blockchains built on MyAppbase to carefully vet the companies and organizations launching blockchains based on MyAppbase before disclosing any private keys to their derivative software.
 
-## Official Testnet
-
-[testnet.eos.io](https://testnet.eos.io/)
-
 ## Supported Operating Systems
 
 MyAppbase currently supports the following operating systems:  
@@ -46,7 +42,7 @@ MyAppbase currently supports the following operating systems:
 
 ## Software Installation
 
-If you are new to MyAppbase, it is recommended that you install the [MyAppbase Prebuilt Binaries](#prebuilt-binaries), then proceed to the [Getting Started](https://developers.eos.io/myappbase-home/docs) walkthrough. If you are an advanced developer, a block producer, or no binaries are available for your platform, you may need to [Build MyAppbase from source](https://myappbase.github.io/eos/latest/install/build-from-source).
+If you are new to MyAppbase, it is recommended that you install the [MyAppbase Prebuilt Binaries](#prebuilt-binaries), then proceed to the [Getting Started](https://github.com/myappbase/myappbase/docs) walkthrough. If you are an advanced developer, a block producer, or no binaries are available for your platform, you may need to [Build MyAppbase from source](https://github.com/myappbase/myappbase/latest/install/build-from-source).
 
 ---
 
@@ -74,13 +70,13 @@ $ brew remove myappbase
 
 #### Ubuntu 18.04 Package Install
 ```sh
-$ wget https://github.com/myappbase/eos/releases/download/v2.0.2/eosio_2.0.2-1-ubuntu-18.04_amd64.deb
-$ sudo apt install ./eosio_2.0.2-1-ubuntu-18.04_amd64.deb
+$ wget https://github.com/myappbase/myappbase/releases/download/v2.0.2/myapp_2.0.2-1-ubuntu-18.04_amd64.deb
+$ sudo apt install ./myapp_2.0.2-1-ubuntu-18.04_amd64.deb
 ```
 #### Ubuntu 16.04 Package Install
 ```sh
-$ wget https://github.com/myappbase/eos/releases/download/v2.0.2/eosio_2.0.2-1-ubuntu-16.04_amd64.deb
-$ sudo apt install ./eosio_2.0.2-1-ubuntu-16.04_amd64.deb
+$ wget https://github.com/myappbase/myappbase/releases/download/v2.0.2/myapp_2.0.2-1-ubuntu-16.04_amd64.deb
+$ sudo apt install ./myapp_2.0.2-1-ubuntu-16.04_amd64.deb
 ```
 #### Ubuntu Package Uninstall
 ```sh
@@ -91,7 +87,7 @@ $ sudo apt remove myappbase
 
 #### RPM Package Install
 ```sh
-$ wget https://github.com/myappbase/eos/releases/download/v2.0.2/myappbase-2.0.2-1.el7.x86_64.rpm
+$ wget https://github.com/myappbase/myappbase/releases/download/v2.0.2/myappbase-2.0.2-1.el7.x86_64.rpm
 $ sudo yum install ./myappbase-2.0.2-1.el7.x86_64.rpm
 ```
 #### RPM Package Uninstall
@@ -102,31 +98,15 @@ $ sudo yum remove myappbase
 ## Uninstall Script
 To uninstall the MyAppbase built/installed binaries and dependencies, run:
 ```sh
-./scripts/eosio_uninstall.sh
+./scripts/myapp_uninstall.sh
 ```
 
-## Documentation
-1. [Nodeos](http://myappbase.github.io/eos/latest/nodeos/)
-    - [Usage](http://myappbase.github.io/eos/latest/nodeos/usage/index)
-    - [Replays](http://myappbase.github.io/eos/latest/nodeos/replays/index)
-    - [Chain API Reference](http://myappbase.github.io/eos/latest/nodeos/plugins/chain_api_plugin/api-reference/index)
-    - [Troubleshooting](http://myappbase.github.io/eos/latest/nodeos/troubleshooting/index)
-1. [Cleos](http://myappbase.github.io/eos/latest/cleos/)
-1. [Keosd](http://myappbase.github.io/eos/latest/keosd/)
-
 ## Resources
-1. [Website](https://eos.io)
-1. [Blog](https://medium.com/myappbase)
-1. [Developer Portal](https://developers.eos.io)
-1. [StackExchange for Q&A](https://myappbase.stackexchange.com/)
-1. [Community Telegram Group](https://t.me/EOSProject)
-1. [Developer Telegram Group](https://t.me/joinchat/EaEnSUPktgfoI-XPfMYtcQ)
-1. [White Paper](https://github.com/MyAppbase/Documentation/blob/master/TechnicalWhitePaper.md)
-1. [Roadmap](https://github.com/MyAppbase/Documentation/blob/master/Roadmap.md)
+1. [Website](https://github.com/myappbase/myappbase)
 
 <a name="gettingstarted"></a>
 ## Getting Started
-Instructions detailing the process of getting the software, building it, running a simple test network that produces blocks, account creation and uploading a sample contract to the blockchain can be found in the [Getting Started](https://developers.eos.io/myappbase-home/docs) walkthrough.
+Instructions detailing the process of getting the software, building it, running a simple test network that produces blocks, account creation and uploading a sample contract to the blockchain can be found in the [Getting Started](https://github.com/myappbase/myappbase/docs) walkthrough.
 
 ## Contributing
 

@@ -55,7 +55,7 @@ cd $( dirname "${BASH_SOURCE[0]}" )/..
 # Load bash script helper functions
 . ./scripts/helpers/myappbase.sh
 
-# Support relative paths : https://github.com/EOSIO/eos/issues/7560
+# Support relative paths : https://github.com/myappbase/myappbase/issues/7560
 ( [[ ! -z $INSTALL_LOCATION ]] && [[ ! $INSTALL_LOCATION =~ ^\/ ]] ) && export INSTALL_LOCATION="${CURRENT_WORKING_DIR}/$INSTALL_LOCATION"
 
 INSTALL_PATHS=()
@@ -75,15 +75,15 @@ if [[ $NONINTERACTIVE == false ]] && $FULL; then
    done
 fi
 
-export EOSIO_INSTALL_DIR=${INSTALL_LOCATION:-$EOSIO_INSTALL_DIR}
+export MYAPP_INSTALL_DIR=${INSTALL_LOCATION:-$MYAPP_INSTALL_DIR}
 
-if [[ ! -d "${EOSIO_INSTALL_DIR}" ]]; then
-   echo "[EOSIO installation ${COLOR_YELLOW}NOT${COLOR_NC} found in ${EOSIO_INSTALL_DIR}]"
+if [[ ! -d "${MYAPP_INSTALL_DIR}" ]]; then
+   echo "[MyAppbase installation ${COLOR_YELLOW}NOT${COLOR_NC} found in ${MYAPP_INSTALL_DIR}]"
 else
-   # As of 1.8.0, we're using a versioned directories under home: https://github.com/EOSIO/eos/issues/6940
-   echo "[EOSIO installation found: ${EOSIO_INSTALL_DIR}]" && INSTALL_PATHS+=("${EOSIO_INSTALL_DIR}") # EOSIO_INSTALL_DIR set in .environment
+   # As of 1.8.0, we're using a versioned directories under home: https://github.com/myappbase/myappbase/issues/6940
+   echo "[MyAppbase installation found: ${MYAPP_INSTALL_DIR}]" && INSTALL_PATHS+=("${MYAPP_INSTALL_DIR}") # MYAPP_INSTALL_DIR set in .environment
    while true; do
-      [[ $NONINTERACTIVE == false ]] && read -p "Do you wish to remove the installation in ${EOSIO_INSTALL_DIR}? (y/n) " PROCEED
+      [[ $NONINTERACTIVE == false ]] && read -p "Do you wish to remove the installation in ${MYAPP_INSTALL_DIR}? (y/n) " PROCEED
       case $PROCEED in
          "" ) echo "What would you like to do?";;
          0 | true | [Yy]* )
@@ -98,17 +98,17 @@ else
             for INSTALL_PATH in ${INSTALL_PATHS[@]}; do
                execute rm -rf $INSTALL_PATH
             done
-            echo " - EOSIO Removal Complete"
+            echo " - MyAppbase Removal Complete"
             break;;
-         1 | false | [Nn]* ) echo " - Cancelled EOSIO Removal!"; exit 1;;
+         1 | false | [Nn]* ) echo " - Cancelled MyAppbase Removal!"; exit 1;;
          * ) echo "Please type 'y' for yes or 'n' for no.";;
       esac
    done
 fi
 
-echo "[Removing EOSIO Dependencies]"
+echo "[Removing MyAppbase Dependencies]"
 if [[ $ARCH == "Darwin" ]]; then
-   for package in $(cat scripts/eosio_build_darwin_deps | cut -d, -f1 2>/dev/null); do
+   for package in $(cat scripts/myapp_build_darwin_deps | cut -d, -f1 2>/dev/null); do
       while true; do
          [[ $NONINTERACTIVE == false ]] && read -p "Do you wish to uninstall and unlink all brew installed ${package} versions? (y/n) " DEP_PROCEED
          case $DEP_PROCEED in

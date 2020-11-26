@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.8 )
 
-project( EOSIO )
+project( MyApp )
 include(CTest) # suppresses DartConfiguration.tcl error
 enable_testing()
 
@@ -14,7 +14,6 @@ include( GNUInstallDirs )
 include( InstallDirectoryPermissions )
 include( MASSigning )
 
-set( BLOCKCHAIN_NAME "EOSIO" )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_EXTENSIONS ON )
 set( CXX_STANDARD_REQUIRED ON)
@@ -24,8 +23,8 @@ set(VERSION_MINOR 0)
 set(VERSION_PATCH 2)
 set(VERSION_FULL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
-set( EOSIO_MQTT2KAFKA_EXECUTABLE_NAME myapp-mqtt2kafka )
-set( EOSIO_MQTT2MONGO_EXECUTABLE_NAME myapp-mqtt2mongo )
+set( MYAPP_MQTT2KAFKA_EXECUTABLE_NAME myapp-mqtt2kafka )
+set( MYAPP_MQTT2MONGO_EXECUTABLE_NAME myapp-mqtt2mongo )
 
 # http://stackoverflow.com/a/18369825
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -72,7 +71,7 @@ endif()
 # uncomment this line to tell GDB about macros (slows compile times)
 # set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -gdwarf-2 -g3" )
 
-set(ENABLE_COVERAGE_TESTING FALSE CACHE BOOL "Build EOSIO for code coverage analysis")
+set(ENABLE_COVERAGE_TESTING FALSE CACHE BOOL "Build MyAppbase for code coverage analysis")
 
 include(utils)
 
@@ -89,10 +88,10 @@ install_directory_permissions(DIRECTORY ${CMAKE_INSTALL_FULL_SYSCONFDIR}/myapp)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/my.version.in ${CMAKE_CURRENT_BINARY_DIR}/myappbase.version.hpp)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/my.version.hpp DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR})
 
-set(EOS_ROOT_DIR ${CMAKE_BINARY_DIR})
+set(MYAPP_ROOT_DIR ${CMAKE_BINARY_DIR})
 configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/my-config.cmake.in ${CMAKE_BINARY_DIR}/lib/cmake/myappbase/my-config.cmake @ONLY)
 
-set(EOS_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
+set(MYAPP_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
 configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/my-config.cmake.in ${CMAKE_BINARY_DIR}/modules/my-config.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/modules/my-config.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake/myappbase)
 

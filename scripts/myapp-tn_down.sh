@@ -1,18 +1,18 @@
 #!/bin/bash
 #
 # myappbase-tn_down.sh is used by the myappbase-tn_bounce.sh and myappbase-tn_roll.sh scripts.
-# It is intended to terminate specific EOS.IO daemon processes.
+# It is intended to terminate specific MyAppbase daemon processes.
 #
 
 
-if [ "$PWD" != "$EOSIO_HOME" ]; then
-    echo $0 must only be run from $EOSIO_HOME
+if [ "$PWD" != "$MYAPP_HOME" ]; then
+    echo $0 must only be run from $MYAPP_HOME
     exit -1
 fi
 
 prog=nodeos
 
-DD=var/lib/node_$EOSIO_NODE
+DD=var/lib/node_$MYAPP_NODE
 runtest=`cat $DD/$prog.pid`
 echo runtest = $runtest
 running=`ps -e | grep $runtest | grep -cv grep `

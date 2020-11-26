@@ -2,8 +2,8 @@
 set -eo pipefail
 SCRIPT_VERSION=3.1 # Build script version (change this to re-build the CICD image)
 ##########################################################################
-# This is the EOSIO automated install script for Linux and Mac OS.
-# This file was downloaded from https://github.com/EOSIO/eos
+# This is the MyAppbase automated install script for Linux and Mac OS.
+# This file was downloaded from https://github.com/myappbase/myappbase
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
 #
@@ -29,7 +29,7 @@ SCRIPT_VERSION=3.1 # Build script version (change this to re-build the CICD imag
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# https://github.com/EOSIO/eos/blob/master/LICENSE
+# https://github.com/myappbase/myappbase/blob/master/LICENSE
 ##########################################################################
 
 function usage() {
@@ -38,7 +38,7 @@ function usage() {
   -o TYPE     Build <Debug|Release|RelWithDebInfo|MinSizeRel> (default: Release)
   -s NAME     Core Symbol Name <1-7 characters> (default: SYS)
   -b DIR      Use pre-built boost in DIR
-  -i DIR      Directory to use for installing dependencies & EOSIO (default: $HOME)
+  -i DIR      Directory to use for installing dependencies & MyAppbase (default: $HOME)
   -y          Noninteractive mode (answers yes to every prompt)
   -c          Enable Code Coverage
   -d          Generate Doxygen
@@ -106,7 +106,7 @@ cd $( dirname "${BASH_SOURCE[0]}" )/..
 . ./scripts/helpers/myappbase.sh
 
 $VERBOSE && echo "Build Script Version: ${SCRIPT_VERSION}"
-echo "EOSIO Version: ${EOSIO_VERSION_FULL}"
+echo "MyAppbase Version: ${MYAPP_VERSION_FULL}"
 echo "$( date -u )"
 echo "User: ${CURRENT_USER}"
 # echo "git head id: %s" "$( cat .git/refs/heads/master )"
@@ -120,7 +120,7 @@ ensure-sudo
 ensure-which
 # Prevent a non-git clone from running
 ensure-git-clone
-# Prompt user for installation path (Set EOSIO_INSTALL_DIR)
+# Prompt user for installation path (Set MYAPP_INSTALL_DIR)
 install-directory-prompt
 # If the same version has already been installed...
 previous-install-prompt
@@ -148,29 +148,29 @@ fi
 # Use existing cmake on system (either global or specific to myappbase)
 # Setup based on architecture
 if [[ $ARCH == "Linux" ]]; then
-   export CMAKE=${CMAKE:-${EOSIO_INSTALL_DIR}/bin/cmake}
+   export CMAKE=${CMAKE:-${MYAPP_INSTALL_DIR}/bin/cmake}
    [[ ! -e /etc/os-release ]] && print_supported_linux_distros_and_exit
    case $NAME in
       "Amazon Linux AMI" | "Amazon Linux")
          echo "${COLOR_CYAN}[Ensuring YUM installation]${COLOR_NC}"
-         FILE="${REPO_ROOT}/scripts/eosio_build_amazonlinux.sh"
+         FILE="${REPO_ROOT}/scripts/myapp_build_amazonlinux.sh"
       ;;
       "CentOS Linux")
-         FILE="${REPO_ROOT}/scripts/eosio_build_centos.sh"
+         FILE="${REPO_ROOT}/scripts/myapp_build_centos.sh"
       ;;
       "Ubuntu")
-         FILE="${REPO_ROOT}/scripts/eosio_build_ubuntu.sh"
+         FILE="${REPO_ROOT}/scripts/myapp_build_ubuntu.sh"
       ;;
       *) print_supported_linux_distros_and_exit;;
    esac
-   CMAKE_PREFIX_PATHS="${EOSIO_INSTALL_DIR}"
+   CMAKE_PREFIX_PATHS="${MYAPP_INSTALL_DIR}"
 fi
 
 if [ "$ARCH" == "Darwin" ]; then
-   # opt/gettext: cleos requires Intl, which requires gettext; it's keg only though and we don't want to force linking: https://github.com/EOSIO/eos/issues/2240#issuecomment-396309884
-   # EOSIO_INSTALL_DIR/lib/cmake: mongo_db_plugin.cpp:25:10: fatal error: 'bsoncxx/builder/basic/kvp.hpp' file not found
-   CMAKE_PREFIX_PATHS="/usr/local/opt/gettext;${EOSIO_INSTALL_DIR}"
-   FILE="${SCRIPT_DIR}/eosio_build_darwin.sh"
+   # opt/gettext: cleos requires Intl, which requires gettext; it's keg only though and we don't want to force linking: https://github.com/myappbase/myappbase/issues/2240#issuecomment-396309884
+   # MYAPP_INSTALL_DIR/lib/cmake: mongo_db_plugin.cpp:25:10: fatal error: 'bsoncxx/builder/basic/kvp.hpp' file not found
+   CMAKE_PREFIX_PATHS="/usr/local/opt/gettext;${MYAPP_INSTALL_DIR}"
+   FILE="${SCRIPT_DIR}/myapp_build_darwin.sh"
    export CMAKE=${CMAKE}
 fi
 
@@ -178,7 +178,7 @@ fi
 execute bash -c "sed -e 's~@~$OPT_DIR~g' $SCRIPT_DIR/pinned_toolchain.cmake &> $BUILD_DIR/pinned_toolchain.cmake"
 
 echo "${COLOR_CYAN}====================================================================================="
-echo "======================= ${COLOR_WHITE}Starting EOSIO Dependency Install${COLOR_CYAN} ===========================${COLOR_NC}"
+echo "======================= ${COLOR_WHITE}Starting MyAppbase Dependency Install${COLOR_CYAN} ===========================${COLOR_NC}"
 execute cd $SRC_DIR
 set_system_vars # JOBS, Memory, disk space available, etc
 echo "Architecture: ${ARCH}"
@@ -187,7 +187,7 @@ execute cd $REPO_ROOT
 
 echo ""
 echo "${COLOR_CYAN}========================================================================"
-echo "======================= ${COLOR_WHITE}Starting EOSIO Build${COLOR_CYAN} ===========================${COLOR_NC}"
+echo "======================= ${COLOR_WHITE}Starting MyAppbase Build${COLOR_CYAN} ===========================${COLOR_NC}"
 if $VERBOSE; then
    echo "CXX: $CXX"
    echo "CC: $CC"
@@ -203,8 +203,8 @@ fi
 $ENABLE_DOXYGEN && LOCAL_CMAKE_FLAGS="-DBUILD_DOXYGEN='${DOXYGEN}' ${LOCAL_CMAKE_FLAGS}"
 $ENABLE_COVERAGE_TESTING && LOCAL_CMAKE_FLAGS="-DENABLE_COVERAGE_TESTING='${ENABLE_COVERAGE_TESTING}' ${LOCAL_CMAKE_FLAGS}"
 
-echo "$CMAKE -DCMAKE_BUILD_TYPE='${CMAKE_BUILD_TYPE}' -DCMAKE_INSTALL_PREFIX='${EOSIO_INSTALL_DIR}' ${LOCAL_CMAKE_FLAGS} '${REPO_ROOT}'"
-execute bash -c "$CMAKE -DCMAKE_BUILD_TYPE='${CMAKE_BUILD_TYPE}' -DCMAKE_INSTALL_PREFIX='${EOSIO_INSTALL_DIR}' ${LOCAL_CMAKE_FLAGS} '${REPO_ROOT}'"
+echo "$CMAKE -DCMAKE_BUILD_TYPE='${CMAKE_BUILD_TYPE}' -DCMAKE_INSTALL_PREFIX='${MYAPP_INSTALL_DIR}' ${LOCAL_CMAKE_FLAGS} '${REPO_ROOT}'"
+execute bash -c "$CMAKE -DCMAKE_BUILD_TYPE='${CMAKE_BUILD_TYPE}' -DCMAKE_INSTALL_PREFIX='${MYAPP_INSTALL_DIR}' ${LOCAL_CMAKE_FLAGS} '${REPO_ROOT}'"
 execute make -j$JOBS VERBOSE=0
 execute cd $REPO_ROOT 1>/dev/null
 
@@ -220,9 +220,9 @@ echo "| (____/\| (___) |/\____) |___) (___| (___) |"
 echo "(_______/(_______)\_______)\_______/(_______)"
 echo "=============================================${COLOR_NC}"
 
-echo "${COLOR_GREEN}EOSIO has been successfully built. $(($TIME_END/3600)):$(($TIME_END%3600/60)):$(($TIME_END%60))"
-echo "${COLOR_GREEN}You can now install using: ${SCRIPT_DIR}/eosio_install.sh${COLOR_NC}"
-echo "${COLOR_YELLOW}Uninstall with: ${SCRIPT_DIR}/eosio_uninstall.sh${COLOR_NC}"
+echo "${COLOR_GREEN}MyAppbase has been successfully built. $(($TIME_END/3600)):$(($TIME_END%3600/60)):$(($TIME_END%60))"
+echo "${COLOR_GREEN}You can now install using: ${SCRIPT_DIR}/myapp_install.sh${COLOR_NC}"
+echo "${COLOR_YELLOW}Uninstall with: ${SCRIPT_DIR}/myapp_uninstall.sh${COLOR_NC}"
 
 echo ""
 echo "${COLOR_CYAN}If you wish to perform tests to ensure functional code:${COLOR_NC}"

@@ -11,7 +11,7 @@
 # in most cases, simply running ./myappbase-tn_bounce.sh is sufficient.
 #
 
-pushd $EOSIO_HOME
+pushd $MYAPP_HOME
 
 if [ ! -f programs/nodeos/nodeos ]; then
     echo unable to locate binary for nodeos
@@ -19,20 +19,20 @@ if [ ! -f programs/nodeos/nodeos ]; then
 fi
 
 config_base=etc/myapp/node_
-if [ -z "$EOSIO_NODE" ]; then
+if [ -z "$MYAPP_NODE" ]; then
     DD=`ls -d ${config_base}[012]?`
     ddcount=`echo $DD | wc -w`
     if [ $ddcount -ne 1 ]; then
         echo $HOSTNAME has $ddcount config directories, bounce not possible. Set environment variable
-        echo EOSIO_NODE to the 2-digit node id number to specify which node to bounce. For example:
-        echo EOSIO_NODE=06 $0 \<options\>
+        echo MYAPP_NODE to the 2-digit node id number to specify which node to bounce. For example:
+        echo MYAPP_NODE=06 $0 \<options\>
         cd -
         exit 1
     fi
     OFS=$((${#DD}-2))
-    export EOSIO_NODE=${DD:$OFS}
+    export MYAPP_NODE=${DD:$OFS}
 else
-    DD=${config_base}$EOSIO_NODE
+    DD=${config_base}$MYAPP_NODE
     if [ ! \( -d $DD \) ]; then
         echo no directory named $PWD/$DD
         cd -
@@ -40,5 +40,5 @@ else
     fi
 fi
 
-bash $EOSIO_HOME/scripts/myappbase-tn_down.sh
-bash $EOSIO_HOME/scripts/myappbase-tn_up.sh "$*"
+bash $MYAPP_HOME/scripts/myappbase-tn_down.sh
+bash $MYAPP_HOME/scripts/myappbase-tn_up.sh "$*"

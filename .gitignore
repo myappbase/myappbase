@@ -38,7 +38,7 @@ scripts/tn_init.sh
 unittests/unit_test
 
 doxygen
-eos.doxygen
+myapp.doxygen
 
 *.pyc
 *.pyo

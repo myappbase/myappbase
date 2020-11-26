@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE
+ *  @copyright defined in myappbase/LICENSE
  */
 #include <appbase/application.hpp>
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# myappbase-tn_roll is used to have all of the instances of the EOS daemon on a host brought down
+# myappbase-tn_roll is used to have all of the instances of the MyAppbase daemon on a host brought down
 # so that the underlying executable image file (the "text file") can be replaced. Then
 # all instances are restarted.
 # usage: myappbase-tn_roll.sh [arglist]
@@ -13,23 +13,23 @@
 # In most cases, simply running ./myappbase-tn_roll.sh is sufficient.
 #
 
-if [ -z "$EOSIO_HOME" ]; then
-    echo EOSIO_HOME not set - $0 unable to proceed.
+if [ -z "$MYAPP_HOME" ]; then
+    echo MYAPP_HOME not set - $0 unable to proceed.
     exit -1
 fi
 
-cd $EOSIO_HOME
+cd $MYAPP_HOME
 
-if [ -z "$EOSIO_NODE" ]; then
+if [ -z "$MYAPP_NODE" ]; then
     DD=`ls -d var/lib/node_[012]?`
     ddcount=`echo $DD | wc -w`
     if [ $ddcount -gt 1 ]; then
         DD="all"
     fi
     OFS=$((${#DD}-2))
-    export EOSIO_NODE=${DD:$OFS}
+    export MYAPP_NODE=${DD:$OFS}
 else
-    DD=var/lib/node_$EOSIO_NODE
+    DD=var/lib/node_$MYAPP_NODE
     if [ ! \( -d $DD \) ]; then
         echo no directory named $PWD/$DD
         cd -
@@ -59,7 +59,7 @@ if [ \( -z "$prog" \) -o \( -z "$RD" \) ]; then
     exit 1
 fi
 
-SDIR=staging/eos
+SDIR=staging/myappbase
 if [ ! -e $SDIR/$RD/$prog ]; then
     echo $SDIR/$RD/$prog does not exist
     exit 1
@@ -76,17 +76,17 @@ fi
 
 echo DD = $DD
 
-bash $EOSIO_HOME/scripts/myappbase-tn_down.sh
+bash $MYAPP_HOME/scripts/myappbase-tn_down.sh
 
 cp $SDIR/$RD/$prog $RD/$prog
 
 if [ $DD = "all" ]; then
-    for EOSIO_RESTART_DATA_DIR in `ls -d var/lib/node_??`; do
-        bash $EOSIO_HOME/scripts/myappbase-tn_up.sh "$*"
+    for MYAPP_RESTART_DATA_DIR in `ls -d var/lib/node_??`; do
+        bash $MYAPP_HOME/scripts/myappbase-tn_up.sh "$*"
     done
 else
-    bash $EOSIO_HOME/scripts/myappbase-tn_up.sh "$*"
+    bash $MYAPP_HOME/scripts/myappbase-tn_up.sh "$*"
 fi
-unset EOSIO_RESTART_DATA_DIR
+unset MYAPP_RESTART_DATA_DIR
 
 cd -
