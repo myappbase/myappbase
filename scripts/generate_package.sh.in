@@ -28,8 +28,8 @@ export EMAIL
 
 mkdir -p tmp
 
-cp ~/myappbase.help/2.0/opt/mongodb/bin/mongod $BUILD_DIR/bin
-cp ~/myappbase.help/2.0/opt/mongodb/bin/mongo $BUILD_DIR/bin
+cp ~/myapp/2.0/opt/mongodb/bin/mongod $BUILD_DIR/bin
+cp ~/myapp/2.0/opt/mongodb/bin/mongo $BUILD_DIR/bin
 
 
 if [[ ${VARIANT} == "brew" ]]; then

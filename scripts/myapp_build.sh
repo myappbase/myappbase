@@ -103,7 +103,7 @@ export CURRENT_WORKING_DIR=$(pwd) # relative path support
 cd $( dirname "${BASH_SOURCE[0]}" )/..
 
 # Load MyAppbase specific helper functions
-. ./scripts/helpers/myappbase.sh
+. ./scripts/helpers/myapp.sh
 
 $VERBOSE && echo "Build Script Version: ${SCRIPT_VERSION}"
 echo "MyAppbase Version: ${MYAPP_VERSION_FULL}"
@@ -145,6 +145,7 @@ if [[ ! -z $CMAKE_CURRENT_VERSION ]] && [[ $((10#$( echo $CMAKE_CURRENT_VERSION 
    fi
 fi
 
+
 # Use existing cmake on system (either global or specific to myappbase)
 # Setup based on architecture
 if [[ $ARCH == "Linux" ]]; then
@@ -166,6 +167,8 @@ if [[ $ARCH == "Linux" ]]; then
    CMAKE_PREFIX_PATHS="${MYAPP_INSTALL_DIR}"
 fi
 
+echo 111111111111111
+
 if [ "$ARCH" == "Darwin" ]; then
    # opt/gettext: cleos requires Intl, which requires gettext; it's keg only though and we don't want to force linking: https://github.com/myappbase/myappbase/issues/2240#issuecomment-396309884
    # MYAPP_INSTALL_DIR/lib/cmake: mongo_db_plugin.cpp:25:10: fatal error: 'bsoncxx/builder/basic/kvp.hpp' file not found
@@ -174,8 +177,16 @@ if [ "$ARCH" == "Darwin" ]; then
    export CMAKE=${CMAKE}
 fi
 
+echo 2222222222
+echo $OPT_DIR
+echo $SCRIPT_DIR
+echo $BUILD_DIR
+echo 2222222222
+
 # Find and replace OPT_DIR in pinned_toolchain.cmake, then move it into build dir
 execute bash -c "sed -e 's~@~$OPT_DIR~g' $SCRIPT_DIR/pinned_toolchain.cmake &> $BUILD_DIR/pinned_toolchain.cmake"
+
+echo 333333333333
 
 echo "${COLOR_CYAN}====================================================================================="
 echo "======================= ${COLOR_WHITE}Starting MyAppbase Dependency Install${COLOR_CYAN} ===========================${COLOR_NC}"

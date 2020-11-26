@@ -36,7 +36,7 @@ VERSION=2.1
 cd $( dirname "${BASH_SOURCE[0]}" )/..
 
 # Load myappbase specific helper functions
-. ./scripts/helpers/myappbase.sh
+. ./scripts/helpers/myapp.sh
 
 [[ ! $NAME == "Ubuntu" ]] && set -i # Ubuntu doesn't support interactive mode since it uses dash
 
