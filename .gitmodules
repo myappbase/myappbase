@@ -5,3 +5,6 @@
 [submodule "libraries/softfloat"]
 	path = libraries/softfloat
 	url = https://github.com/myappbase/berkeley-softfloat-3
+[submodule "libraries/fc"]
+	path = libraries/fc
+	url = https://github.com/myappbase/fc
